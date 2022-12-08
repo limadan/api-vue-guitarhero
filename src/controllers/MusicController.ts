@@ -30,6 +30,7 @@ export class MusicController{
         const new_music = {
             artist: req.body.artist,
             title: req.body.title,
+            album_photo: req.body.album_photo,
             audio_url: req.body.audio_url
         }
         const result = await musicRepository.save(new_music)

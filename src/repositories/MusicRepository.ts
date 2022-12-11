@@ -1,5 +1,5 @@
 import { Music } from '../models/Music'
-import db from '../firestore/config'
+import db from '../firebase/firestore'
 
 interface CreateMusicDTO{
     artist: string

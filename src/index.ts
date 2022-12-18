@@ -1,5 +1,6 @@
 import express, {Request, Response} from 'express'
 import musicRouter from './routes/musicRoutes'
+import authRouter from './routes/AuthRoutes'
 import fileUpload from 'express-fileupload'
 
 const app = express()
@@ -10,8 +11,9 @@ app.use(fileUpload({
     debug: true,
     limits: { fileSize: 50 * 1024 * 1024 },
   }));
-app.use('/music', musicRouter)
 
+app.use('/music', musicRouter)
+app.use('/auth', authRouter)
 app.listen(3000, ()=>{
     console.log("Servidor rodando! Porta: 3000")
 })

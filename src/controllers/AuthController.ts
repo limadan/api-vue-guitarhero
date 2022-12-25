@@ -38,8 +38,7 @@ export class AuthController{
 
         const token = sign({
             userId: user.id,
-            expiresIn: '24h'
-        }, 'mysecret')
+        }, JSON.stringify(process.env.SECRET), {expiresIn: '24h'})
         
         return res.status(200).json({token: token})
     }

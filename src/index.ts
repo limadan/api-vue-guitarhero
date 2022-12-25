@@ -2,6 +2,9 @@ import express, {Request, Response} from 'express'
 import musicRouter from './routes/musicRoutes'
 import authRouter from './routes/AuthRoutes'
 import fileUpload from 'express-fileupload'
+import { config } from "dotenv";
+
+config()
 
 const app = express()
 

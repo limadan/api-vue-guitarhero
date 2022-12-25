@@ -1,8 +1,5 @@
 import { MusicRepository } from "../repositories/MusicRepository";
-import bucket from "../firebase/storage";
 import { Request, Response } from "express";
-import fs from 'fs'
-import uploadStorage from "../helpers/uploadStorage";
 
 export class MusicController{
 
@@ -26,23 +23,12 @@ export class MusicController{
     }
 
     public async createNewMusic(req: Request, res: Response): Promise<any>{
-        const fileObject = JSON.parse(JSON.stringify(req.files))
-        const tempFilePathPhoto = fileObject.album_photo.tempFilePath
-        const tempFilePathAudio = fileObject.album_photo.tempFilePath
-
-        Promise.all([
-            uploadStorage(tempFilePathPhoto, 'covers'),
-            uploadStorage(tempFilePathAudio, 'tracks')
-        ]).then((resolve)=>{
-            fs.rmSync(tempFilePathAudio, { recursive: true, force: true })
-            fs.rmSync(tempFilePathPhoto, { recursive: true, force: true })
-
             const musicRepository = new MusicRepository();
             const new_music = {
                 artist: req.body.artist,
                 title: req.body.title,
-                album_photo: resolve[0][0],
-                audio_url: resolve[1][0]
+                album_photo: '',
+                audio_url: ''
             }
             const result = musicRepository.save(new_music)
 
@@ -53,10 +39,5 @@ export class MusicController{
             }
 
             return res.status(200).json(new_music)
-        }).catch(()=>{
-            return res.status(500).json({
-                error: "Ocorreu um erro ao fazer o upload de arquivo"
-            })
-        })
     }
 }
